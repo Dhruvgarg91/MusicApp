@@ -911,7 +911,74 @@ function bindEvent() {
   pizzaArr.map((track) => createCard(track));
 }
 
-let currentAudioPlayer = null; // To keep track of the currently playing audio player
+function createFullscreenCard(track) {
+  const fullscreenCard = document.createElement("div");
+  fullscreenCard.className = "fullscreen-card d-flex flex-column justify-content-center align-items-center";
+  fullscreenCard.style.position = "fixed";
+  fullscreenCard.style.top = "0";
+  fullscreenCard.style.left = "0";
+  fullscreenCard.style.width = "100%";
+  fullscreenCard.style.height = "100%";
+  fullscreenCard.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+  fullscreenCard.style.zIndex = "1000";
+
+  const card = document.createElement("div");
+  card.className = "card text-light";
+  card.style.width = "300px"; // Adjust the card width as needed
+
+  const cardImage = document.createElement("img");
+  cardImage.className = "card-img-top";
+  cardImage.src = track.artworkUrl100;
+  cardImage.alt = track.trackName;
+
+  const cardBody = document.createElement("div");
+  cardBody.className = "card-body d-flex flex-column justify-content-between";
+
+  const cardTitle = document.createElement("h5");
+  cardTitle.className = "card-title";
+  cardTitle.textContent = track.trackName;
+
+  const cardArtist = document.createElement("p");
+  cardArtist.className = "card-text";
+  cardArtist.textContent = track.artistName;
+
+  cardBody.appendChild(cardTitle);
+  cardBody.appendChild(cardArtist);
+
+  // Create an <audio> element for the song preview
+  const audioPlayer = document.createElement("audio");
+  audioPlayer.controls = true;
+  audioPlayer.style.width = "100%"; // Set audio player width to 100% of card width
+  const audioSource = document.createElement("source");
+  audioSource.src = track.previewUrl;
+  audioSource.type = "audio/mpeg";
+  audioPlayer.appendChild(audioSource);
+
+  card.appendChild(cardImage);
+  card.appendChild(cardBody);
+  card.appendChild(audioPlayer);
+
+  fullscreenCard.appendChild(card);
+
+  // Close button
+  const closeButton = document.createElement("button");
+  closeButton.className = "btn btn-secondary mt-3";
+  closeButton.textContent = "Close";
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(fullscreenCard);
+    if (!audioPlayer.paused) {
+      audioPlayer.pause();
+    }
+  });
+
+  card.appendChild(closeButton);
+
+  document.body.appendChild(fullscreenCard);
+}
+
+// Rest of the createCard function remains unchanged
+
+
 
 function createCard(track) {
   const card = document.createElement("div");
@@ -943,15 +1010,6 @@ function createCard(track) {
   cardOverlay.appendChild(cardContent);
   card.appendChild(cardImage);
 
-  // Create an <audio> element for the song preview
-  const audioPlayer = document.createElement("audio");
-  audioPlayer.controls = true;
-  audioPlayer.style.width = "100%"; // Set audio player width to 100% of card width
-  const audioSource = document.createElement("source");
-  audioSource.src = track.previewUrl;
-  audioSource.type = "audio/mpeg";
-  audioPlayer.appendChild(audioSource);
-
   // Create "Listen Now" button
   const listenButton = document.createElement("button");
   listenButton.className = "btn btn-primary btn-sm";
@@ -959,15 +1017,7 @@ function createCard(track) {
 
   // Event listener for the "Listen Now" button click
   listenButton.addEventListener("click", () => {
-    if (currentAudioPlayer) {
-      currentAudioPlayer.pause(); // Pause the currently playing audio player
-    }
-    
-    // Replace the button with the audio player
-    cardOverlay.removeChild(listenButton);
-    card.appendChild(audioPlayer);
-    currentAudioPlayer = audioPlayer; // Set the current audio player
-    audioPlayer.play(); // Start playing the clicked song
+    createFullscreenCard(track);
   });
 
   cardOverlay.appendChild(listenButton); // Add the "Listen Now" button
