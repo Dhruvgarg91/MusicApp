@@ -936,11 +936,11 @@ function createFullscreenCard(track) {
   cardBody.className = "card-body d-flex flex-column justify-content-between";
 
   const cardTitle = document.createElement("h5");
-  cardTitle.className = "card-title";
+  cardTitle.className = "card-title text-dark";
   cardTitle.textContent = track.trackName;
 
   const cardArtist = document.createElement("p");
-  cardArtist.className = "card-text";
+  cardArtist.className = "card-text text-dark";
   cardArtist.textContent = track.artistName;
 
   cardBody.appendChild(cardTitle);
@@ -987,7 +987,7 @@ function createCard(track) {
 
   const cardOverlay = document.createElement("div");
   cardOverlay.className =
-    "card-img-overlay d-flex flex-column justify-content-end"; // Position at the bottom
+    "card-img-overlay d-flex flex-column justify-content-end";
 
   const cardContent = document.createElement("div");
   cardContent.className = "card-content";
