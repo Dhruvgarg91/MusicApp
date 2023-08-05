@@ -913,7 +913,8 @@ function bindEvent() {
 
 function createFullscreenCard(track) {
   const fullscreenCard = document.createElement("div");
-  fullscreenCard.className = "fullscreen-card d-flex flex-column justify-content-center align-items-center";
+  fullscreenCard.className =
+    "fullscreen-card d-flex flex-column justify-content-center align-items-center";
   fullscreenCard.style.position = "fixed";
   fullscreenCard.style.top = "0";
   fullscreenCard.style.left = "0";
@@ -924,7 +925,7 @@ function createFullscreenCard(track) {
 
   const card = document.createElement("div");
   card.className = "card text-light";
-  card.style.width = "300px"; // Adjust the card width as needed
+  card.style.width = "300px";
 
   const cardImage = document.createElement("img");
   cardImage.className = "card-img-top";
@@ -945,10 +946,9 @@ function createFullscreenCard(track) {
   cardBody.appendChild(cardTitle);
   cardBody.appendChild(cardArtist);
 
-  // Create an <audio> element for the song preview
   const audioPlayer = document.createElement("audio");
   audioPlayer.controls = true;
-  audioPlayer.style.width = "100%"; // Set audio player width to 100% of card width
+  audioPlayer.style.width = "100%";
   const audioSource = document.createElement("source");
   audioSource.src = track.previewUrl;
   audioSource.type = "audio/mpeg";
@@ -960,7 +960,6 @@ function createFullscreenCard(track) {
 
   fullscreenCard.appendChild(card);
 
-  // Close button
   const closeButton = document.createElement("button");
   closeButton.className = "btn btn-secondary mt-3";
   closeButton.textContent = "Close";
@@ -976,10 +975,6 @@ function createFullscreenCard(track) {
   document.body.appendChild(fullscreenCard);
 }
 
-// Rest of the createCard function remains unchanged
-
-
-
 function createCard(track) {
   const card = document.createElement("div");
   card.className = "card text-bg-dark m-1";
@@ -991,7 +986,8 @@ function createCard(track) {
   cardImage.alt = track.trackName;
 
   const cardOverlay = document.createElement("div");
-  cardOverlay.className = "card-img-overlay d-flex flex-column justify-content-end"; // Position at the bottom
+  cardOverlay.className =
+    "card-img-overlay d-flex flex-column justify-content-end"; // Position at the bottom
 
   const cardContent = document.createElement("div");
   cardContent.className = "card-content";
@@ -1010,17 +1006,15 @@ function createCard(track) {
   cardOverlay.appendChild(cardContent);
   card.appendChild(cardImage);
 
-  // Create "Listen Now" button
   const listenButton = document.createElement("button");
   listenButton.className = "btn btn-primary btn-sm";
   listenButton.textContent = "Listen Now";
 
-  // Event listener for the "Listen Now" button click
   listenButton.addEventListener("click", () => {
     createFullscreenCard(track);
   });
 
-  cardOverlay.appendChild(listenButton); // Add the "Listen Now" button
+  cardOverlay.appendChild(listenButton);
   card.appendChild(cardOverlay);
 
   const cardContainerElement = document.getElementById("card-container");
