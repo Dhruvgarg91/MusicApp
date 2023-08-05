@@ -911,79 +911,67 @@ function bindEvent() {
   pizzaArr.map((track) => createCard(track));
 }
 
-let currentAudioPlayer = null; 
+let currentAudioPlayer = null; // To keep track of the currently playing audio player
 
 function createCard(track) {
   const card = document.createElement("div");
-  card.className = "card m-1";
-  card.style.maxWidth = "540px";
-
-  const row = document.createElement("div");
-  row.className = "row g-0";
-
-  const colImage = document.createElement("div");
-  colImage.className = "col-md-4";
+  card.className = "card text-bg-dark m-1";
+  card.style.width = "13rem";
 
   const cardImage = document.createElement("img");
-  cardImage.className = "img-fluid rounded-start";
+  cardImage.className = "card-img";
   cardImage.src = track.artworkUrl100;
   cardImage.alt = track.trackName;
 
-  colImage.appendChild(cardImage);
-  row.appendChild(colImage);
+  const cardOverlay = document.createElement("div");
+  cardOverlay.className = "card-img-overlay d-flex flex-column justify-content-end"; // Position at the bottom
 
-  const colContent = document.createElement("div");
-  colContent.className = "col-md-8";
-
-  const cardBody = document.createElement("div");
-  cardBody.className = "card-body";
+  const cardContent = document.createElement("div");
+  cardContent.className = "card-content";
 
   const cardTitle = document.createElement("h5");
   cardTitle.className = "card-title";
   cardTitle.textContent = track.trackName;
 
-  const cardText = document.createElement("p");
-  cardText.className = "card-text";
-  cardText.textContent = "Author: " + track.artistName; 
+  const cardArtist = document.createElement("p");
+  cardArtist.className = "card-text";
+  cardArtist.textContent = track.artistName;
 
-  cardBody.appendChild(cardTitle);
-  cardBody.appendChild(cardText);
+  cardContent.appendChild(cardTitle);
+  cardContent.appendChild(cardArtist);
 
-  
-  const listenButton = document.createElement("button");
-  listenButton.className = "btn btn-primary btn-sm";
-  listenButton.textContent = "Listen Now";
-  listenButton.style.position = "absolute";
-  listenButton.style.bottom = "10px";
-  listenButton.style.right = "10px";
+  cardOverlay.appendChild(cardContent);
+  card.appendChild(cardImage);
 
-  
-  listenButton.addEventListener("click", () => {
-    if (currentAudioPlayer) {
-      currentAudioPlayer.pause(); 
-    }
-
-    
-    cardBody.removeChild(listenButton);
-    cardBody.appendChild(audioPlayer);
-    currentAudioPlayer = audioPlayer; 
-    audioPlayer.play(); 
-  });
-
-  cardBody.appendChild(listenButton);
-  colContent.appendChild(cardBody);
-  row.appendChild(colContent);
-
-  card.appendChild(row);
-
-  
+  // Create an <audio> element for the song preview
   const audioPlayer = document.createElement("audio");
   audioPlayer.controls = true;
-  audioPlayer.style.width = "100%";
+  audioPlayer.style.width = "100%"; // Set audio player width to 100% of card width
   const audioSource = document.createElement("source");
   audioSource.src = track.previewUrl;
   audioSource.type = "audio/mpeg";
   audioPlayer.appendChild(audioSource);
+
+  // Create "Listen Now" button
+  const listenButton = document.createElement("button");
+  listenButton.className = "btn btn-primary btn-sm";
+  listenButton.textContent = "Listen Now";
+
+  // Event listener for the "Listen Now" button click
+  listenButton.addEventListener("click", () => {
+    if (currentAudioPlayer) {
+      currentAudioPlayer.pause(); // Pause the currently playing audio player
+    }
+    
+    // Replace the button with the audio player
+    cardOverlay.removeChild(listenButton);
+    card.appendChild(audioPlayer);
+    currentAudioPlayer = audioPlayer; // Set the current audio player
+    audioPlayer.play(); // Start playing the clicked song
+  });
+
+  cardOverlay.appendChild(listenButton); // Add the "Listen Now" button
+  card.appendChild(cardOverlay);
 
   const cardContainerElement = document.getElementById("card-container");
   cardContainerElement.appendChild(card);
