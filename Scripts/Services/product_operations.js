@@ -1,4 +1,4 @@
-import MusicTrack from "../models/model.js/";
+import MusicTrack from "../Models/model.js";
 import doNetworkCall from "./api-client.js";
 
 export default async function readAllProducts() {

@@ -33,3 +33,4 @@ class MusicTrack {
       this.isStreamable = data.isStreamable;
   }
 }
+export default MusicTrack;
