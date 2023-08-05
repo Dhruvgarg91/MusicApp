@@ -915,7 +915,7 @@ let currentAudioPlayer = null;
 
 function createCard(track) {
   const card = document.createElement("div");
-  card.className = "card mb-3";
+  card.className = "card m-1";
   card.style.maxWidth = "540px";
 
   const row = document.createElement("div");
