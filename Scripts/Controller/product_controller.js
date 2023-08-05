@@ -1,25 +1,5 @@
 window.addEventListener("load", bindEvent);
-const searchButton = document.getElementById("search-button");
 
-// Event listener for search button click
-searchButton.addEventListener("click", async () => {
-  const searchInput = document.getElementById("search-input").value.toLowerCase();
-  
-  // Filter musicTracks based on searchInput
-  const filteredTracks = musicTracks.filter(track =>
-    track.artistName.toLowerCase().includes(searchInput) ||
-    track.trackName.toLowerCase().includes(searchInput)
-  );
-
-  // Clear existing cards
-  const cardContainerElement = document.getElementById("card-container");
-  cardContainerElement.innerHTML = "";
-
-  // Create cards for filtered tracks
-  filteredTracks.forEach(track => {
-    createCard(track);
-  });
-});
 function bindEvent() {
   const pizzaArr = [
     {
@@ -931,7 +911,7 @@ function bindEvent() {
   pizzaArr.map((track) => createCard(track));
 }
 
-let currentAudioPlayer = null; // To keep track of the currently playing audio player
+let currentAudioPlayer = null; 
 
 function createCard(track) {
   const card = document.createElement("div");
@@ -964,12 +944,12 @@ function createCard(track) {
 
   const cardText = document.createElement("p");
   cardText.className = "card-text";
-  cardText.textContent = "Author: " + track.artistName; // Replace with author's name
+  cardText.textContent = "Author: " + track.artistName; 
 
   cardBody.appendChild(cardTitle);
   cardBody.appendChild(cardText);
 
-  // Create "Listen Now" button
+  
   const listenButton = document.createElement("button");
   listenButton.className = "btn btn-primary btn-sm";
   listenButton.textContent = "Listen Now";
@@ -977,29 +957,29 @@ function createCard(track) {
   listenButton.style.bottom = "10px";
   listenButton.style.right = "10px";
 
-  // Event listener for the "Listen Now" button click
+  
   listenButton.addEventListener("click", () => {
     if (currentAudioPlayer) {
-      currentAudioPlayer.pause(); // Pause the currently playing audio player
+      currentAudioPlayer.pause(); 
     }
+
     
-    // Replace the button with the audio player
     cardBody.removeChild(listenButton);
     cardBody.appendChild(audioPlayer);
-    currentAudioPlayer = audioPlayer; // Set the current audio player
-    audioPlayer.play(); // Start playing the clicked song
+    currentAudioPlayer = audioPlayer; 
+    audioPlayer.play(); 
   });
 
-  cardBody.appendChild(listenButton); // Add the "Listen Now" button
+  cardBody.appendChild(listenButton);
   colContent.appendChild(cardBody);
   row.appendChild(colContent);
 
   card.appendChild(row);
 
-  // Create an <audio> element for the song preview
+  
   const audioPlayer = document.createElement("audio");
   audioPlayer.controls = true;
-  audioPlayer.style.width = "100%"; // Set audio player width to 100% of card width
+  audioPlayer.style.width = "100%";
   const audioSource = document.createElement("source");
   audioSource.src = track.previewUrl;
   audioSource.type = "audio/mpeg";
@@ -1008,6 +988,5 @@ function createCard(track) {
   const cardContainerElement = document.getElementById("card-container");
   cardContainerElement.appendChild(card);
 }
-
 
 createCard();
