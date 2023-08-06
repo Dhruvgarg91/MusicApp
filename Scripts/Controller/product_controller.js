@@ -9,15 +9,28 @@ async function showProducts(searchQuery = "") {
         product.artistName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.trackName.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    console.log("Filtered Products:", filteredProducts);
+
     clearCards();
-    filteredProducts.map((track) => createCard(track));
+    if (filteredProducts.length === 0) {
+      document.getElementById("no-results").style.display = "block";
+    } else {
+      document.getElementById("no-results").style.display = "none";
+      filteredProducts.map((track) => createCard(track));
+    }
   } else {
-    console.log("All Products:", products);
     clearCards();
-    products.map((track) => createCard(track));
+    if (products.length === 0) {
+      document.getElementById("no-results").style.display = "block";
+    } else {
+      document.getElementById("no-results").style.display = "none";
+      products.map((track) => createCard(track));
+    }
   }
 }
+
+// Rest of the code remains unchanged
+
+
 
 function clearCards() {
   const cardContainer = document.getElementById("card-container");
@@ -133,7 +146,6 @@ function createCard(track) {
   const cardContainerElement = document.getElementById("card-container");
   cardContainerElement.appendChild(card);
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   const searchButton = document.getElementById("search-button");
   searchButton.addEventListener("click", () => {
