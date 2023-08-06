@@ -28,10 +28,6 @@ async function showProducts(searchQuery = "") {
   }
 }
 
-// Rest of the code remains unchanged
-
-
-
 function clearCards() {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
