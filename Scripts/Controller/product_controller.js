@@ -1,9 +1,27 @@
 import readAllProducts from "../Services/product_operations.js";
 
-async function showProducts() {
+async function showProducts(searchQuery = "") {
   const products = await readAllProducts();
-  console.log("Controller rec ", products);
-  products.map((track) => createCard(track));
+
+  if (searchQuery) {
+    const filteredProducts = products.filter(
+      (product) =>
+        product.artistName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.trackName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    console.log("Filtered Products:", filteredProducts);
+    clearCards();
+    filteredProducts.map((track) => createCard(track));
+  } else {
+    console.log("All Products:", products);
+    clearCards();
+    products.map((track) => createCard(track));
+  }
+}
+
+function clearCards() {
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
 }
 
 function createFullscreenCard(track) {
@@ -117,6 +135,11 @@ function createCard(track) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const searchButton = document.getElementById("search-button");
+  searchButton.addEventListener("click", () => {
+    const searchInput = document.getElementById("search-input").value;
+    showProducts(searchInput);
+  });
+
   showProducts();
 });
-
